@@ -2,14 +2,36 @@
 //  NSDateFormatter(A3Addition)
 //  AppBox3
 //
-//  Created by Byeong Kwon Kwak on 2/8/14 3:40 PM.
-//  Copyright (c) 2012 ALLABOUTAPPS. All rights reserved.
+//  Created by A3 on 2/8/14 3:40 PM.
+//  Copyright (c) 2014 ALLABOUTAPPS. All rights reserved.
 //
 
 #import "NSDateFormatter+A3Addition.h"
 
 
 @implementation NSDateFormatter (A3Addition)
+
+/*! Generate string from date with NSDateFormatterLongStyle omitting Day part
+ * \param NSDate
+ * \returns string like February, 2014, 2014년 2월
+ */
+- (NSString *)localizedLongStyleYearMonthFromDate:(NSDate *)date {
+	[self setDateStyle:NSDateFormatterLongStyle];
+	NSString *dateFormat = [self formatStringByRemovingDayComponent:self.dateFormat];
+	[self setDateFormat:dateFormat];
+	return [self stringFromDate:date];
+}
+
+/*! Generate string from date with NSDateFormatterMediumStyle omitting Day part
+ * \param NSDate
+ * \returns string like Feb, 2014, 2014년 2월
+ */
+- (NSString *)localizedMediumStyleYearMonthFromDate:(NSDate *)date {
+	[self setDateStyle:NSDateFormatterMediumStyle];
+	NSString *dateFormat = [self formatStringByRemovingDayComponent:self.dateFormat];
+	[self setDateFormat:dateFormat];
+	return [self stringFromDate:date];
+}
 
 - (NSString *)formatStringByRemovingYearComponent:(NSString *)originalFormat {
 	NSArray *replaceArray = @[
@@ -33,7 +55,7 @@
 	return [self formatStringByRemovingComponent:@"y" formFormat:originalFormat];
 }
 
-- (NSString *)formatStringByRemovingDateComponent:(NSString *)originalFormat {
+- (NSString *)formatStringByRemovingDayComponent:(NSString *)originalFormat {
 	// Group 1, just removing specific component
 	NSArray *replaceArray = @[
 			@"dd/", @"/dd", @"/d", @"d. ", @"d.", @"dd.", @"d/", @"-dd", @"dd-", @"d-", @"d日", @"dd日",
